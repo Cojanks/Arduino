@@ -20,6 +20,7 @@ int currentFace = 10;
 
 int i_normal = 0;
 int i_laugh = 0;
+int i_angry = 0;
 
 void setup() 
 {  
@@ -47,11 +48,12 @@ void loop()
     currentFace = 11;
     i_laugh = 0;
   }
-//  TODO:
-//  if (digitalRead(buttonAngrypin) == LOW)
-//  {
-//    currentFace = 12;
-//  }
+  if (digitalRead(buttonAngrypin) == LOW)
+  {
+    currentFace = 12;
+    i_angry = 0;
+  }
+  //  TODO:
 //  if (digitalRead(buttonNeutralpin) == LOW)
 //  {
 //    currentFace = 13;
@@ -83,7 +85,6 @@ const uint64_t LAUGHIMAGES[] = {
   0x003c7e4200666600
 };
 const int IMAGES_LEN_LAUGH = sizeof(LAUGHIMAGES)/8;
-
 void laughFace(uint64_t image) {
   for(int i = 0; i < 8; i++){
     byte row = (image >> i * 8) & 0xFF;
@@ -167,6 +168,59 @@ void normalFace(uint64_t image) {
   }
 }
 
+//Angry Face Animation
+const uint64_t ANGRYIMAGES[] = {
+  0x00007e0000666600,
+  0x00007e0000664200,
+  0x0000423c00664200,
+  0x0042423c00664200,
+  0x0042423c00664200,
+  0x00427e3c00664200,
+  0x007e423c00664200,
+  0x007e423c00664200,
+  0x007e423c00664200,
+  0x3c42423c00664200,
+  0x1e21211e00332100,
+  0x1e21211e00332100,
+  0x3c42423c00664200,
+  0x7884847800cc8400,
+  0x7884847800cc8400,
+  0x3c42423c00664200,
+  0x3c42423c00664200,
+  0x3c42423c00006642,
+  0x3c4242423c006642,
+  0x788484847800cc84,
+  0x3c4242423c006642,
+  0x1e2121211e003321,
+  0x3c4242423c006642,
+  0x788484847800cc84,
+  0x3c4242423c006642,
+  0x1e2121211e003321,
+  0x3c4242423c006642,
+  0x3c42423c00006642,
+  0x3c42423c00664200,
+  0x007e423c00664200,
+  0x007e423c00664200,
+  0x00427e3c00664200,
+  0x0042423c00664200,
+  0x00007e0000664200,
+  0x00007e0000666600,
+  0x00007e0000666600,
+  0x00007e0000666600,
+  0x00007e0000666600
+};
+const int IMAGES_LEN_ANGRY = sizeof(ANGRYIMAGES)/8;
+void angryFace(uint64_t image) {
+  for(int i = 0; i < 8; i++){
+    byte row = (image >> i * 8) & 0xFF;
+    for(int p = 0; p < 8; p++){
+      lc.setLed(0,i,p, bitRead(row, p));
+    }
+  }
+}
+
+
+
 void displayFace(int faceInt) {
   switch (faceInt) {
   case 10:
@@ -182,9 +236,12 @@ void displayFace(int faceInt) {
     }
     break;
     //  TODO:
-//    case 12:
-//          Angry Face Here
-//    break;
+    case 12:
+    angryFace(ANGRYIMAGES[i_angry]);
+    if(++i_angry >= IMAGES_LEN_ANGRY ) {
+      i_angry = 0;
+    }      
+    break;
 //    case 13:
 //          Bored/Neutral face?
 //    break;
