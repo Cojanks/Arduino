@@ -21,6 +21,7 @@ int currentFace = 10;
 int i_normal = 0;
 int i_laugh = 0;
 int i_angry = 0;
+int i_neutral = 0;
 
 void setup() 
 {  
@@ -53,11 +54,11 @@ void loop()
     currentFace = 12;
     i_angry = 0;
   }
-  //  TODO:
-//  if (digitalRead(buttonNeutralpin) == LOW)
-//  {
-//    currentFace = 13;
-//  }
+  if (digitalRead(buttonNeutralpin) == LOW)
+  {
+    currentFace = 13;
+    i_neutral = 0;
+  }
   
   displayFace(currentFace);
   delay(delaytime);
@@ -219,6 +220,62 @@ void angryFace(uint64_t image) {
   }
 }
 
+//Angry Face Animation
+const uint64_t NEUTRALIMAGES[] = {
+  0x00007e0000666600,
+  0x00007e0000666600,
+  0x00007e0000666600,
+  0x00007e0000666600,
+  0x00007e0000666600,
+  0x00007e0000666600,
+  0x00007e0000666600,
+  0x00007e0000666600,
+  0x00007e0000666600,
+  0x00007e0000666600,
+  0x00007e0000660000,
+  0x00007e0000660000,
+  0x00007e0000666600,
+  0x00007e0000666600,
+  0x00007e0000666600,
+  0x00007e0000666600,
+  0x00007e0000660000,
+  0x00007e0000660000,
+  0x00007e0000666600,
+  0x00007e0000666600,
+  0x00007e0000666600,
+  0x00007e0000666600,
+  0x00007e0000666600,
+  0x00007e0000666600,
+  0x00007e0000666600,
+  0x00007e0000666600,
+  0x00007e0000660000,
+  0x0000fc0000cc0000,
+  0x00007e0000660000,
+  0x00003f0000330000,
+  0x00007e0000660000,
+  0x0000fc0000cc0000,
+  0x00007e0000660000,
+  0x00003f0000330000,
+  0x00007e0000660000,
+  0x00007e0000666600,
+  0x00007e0000666600,
+  0x00007e0000666600,
+  0x00007e0000666600,
+  0x00007e0000666600,
+  0x00007e0000666600,
+  0x00007e0000666600,
+  0x00007e0000666600
+};
+const int IMAGES_LEN_NEUTRAL = sizeof(NEUTRALIMAGES)/8;
+void neutralFace(uint64_t image) {
+  for(int i = 0; i < 8; i++){
+    byte row = (image >> i * 8) & 0xFF;
+    for(int p = 0; p < 8; p++){
+      lc.setLed(0,i,p, bitRead(row, p));
+    }
+  }
+}
+
 
 
 void displayFace(int faceInt) {
@@ -235,16 +292,18 @@ void displayFace(int faceInt) {
       i_laugh = 0;
     }
     break;
-    //  TODO:
     case 12:
     angryFace(ANGRYIMAGES[i_angry]);
     if(++i_angry >= IMAGES_LEN_ANGRY ) {
       i_angry = 0;
     }      
     break;
-//    case 13:
-//          Bored/Neutral face?
-//    break;
+    case 13:
+    neutralFace(NEUTRALIMAGES[i_neutral]);
+    if(++i_neutral >= IMAGES_LEN_NEUTRAL ) {
+      i_neutral = 0;
+    }         
+    break;
   default:
     Serial.println("Default");
     break;
