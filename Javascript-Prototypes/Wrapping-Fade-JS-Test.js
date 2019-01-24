@@ -61,4 +61,4 @@ function loop(repeat) { // loop(), ignore the repeat arg
     }
 }
 
-loop(4);
+loop(2);
