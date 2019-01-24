@@ -11,8 +11,8 @@
 // example for more information on possible values.
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
-int delayval = 100;
-int fadeVal = 100;
+int delayval = 50;
+int fadeVal = 50;
 int numPixelFade = 2;
 
 void setup() {
@@ -30,16 +30,16 @@ void loop() {
       int right = i + p; 
 
       if(left >= 0) {
-        pixels.setPixelColor(i-p, pixels.Color((fadeVal*p),0,255 - (fadeVal*p)));
+        pixels.setPixelColor(i-p, pixels.Color(100 - (fadeVal*p),0,100 - (fadeVal*p)));
       }
       else if(left < 0) {
-        pixels.setPixelColor(NUMPIXELS + left, pixels.Color((fadeVal*p),0,255 - (fadeVal*p)));
+        pixels.setPixelColor(NUMPIXELS + left, pixels.Color(100 - (fadeVal*p),0,100 - (fadeVal*p)));
       }
       if (right < NUMPIXELS) {
-        pixels.setPixelColor(i + p, pixels.Color((fadeVal*p),0,255 - (fadeVal*p)));
+        pixels.setPixelColor(i + p, pixels.Color(100 - (fadeVal*p),0,100 - (fadeVal*p)));
       }
        else if(right >= NUMPIXELS) {
-        pixels.setPixelColor(right - NUMPIXELS, pixels.Color((fadeVal*p),0,255 - (fadeVal*p)));
+        pixels.setPixelColor(right - NUMPIXELS, pixels.Color(100 - (fadeVal*p),0,100 - (fadeVal*p)));
       }
     }
 
