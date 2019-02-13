@@ -29,14 +29,14 @@ void loop() {
     // Sets the main pixel
     leds[i] = CHSV(pixelHue,255, brightestValue);
     
-    // Once the main pixel is set, you look to the left/right for the fade, starting with the furthest out
+    // Once the main pixel is set, Loop through the left/right fade, starting with the furthest
     for(int p = numPixelFade; p > 0; p--) {
       // Find the furthest left/right array index of your fade
       int left = i - p; 
       int right = i + p; 
 
       // Handle Left
-      //  If the left most fade indec of the fade does not fall outside of the array:
+      //  If the left most fade index of the fade does not fall outside of the array:
       if(left >= 0) {
         leds[i-p] = CHSV(pixelHue,255, brightestValue - (fadeVal*p));
       }
@@ -45,7 +45,7 @@ void loop() {
       }
 
       // Handle Right
-      //  If the right most part of the fade does not fall outside of the array:
+      //  If the right most index of the fade does not fall outside of the array:
       if (right < NUM_LEDS) {
         leds[i + p] = CHSV(pixelHue,255, brightestValue - (fadeVal*p));
       }
