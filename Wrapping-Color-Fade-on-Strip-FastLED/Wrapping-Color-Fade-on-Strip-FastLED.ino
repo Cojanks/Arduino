@@ -7,15 +7,15 @@ FASTLED_USING_NAMESPACE
 // EX: [0,0,1,2,3,4(main runner),3,2,1,0,0,0,0]
 
 #define DATA_PIN      17
-#define NUM_LEDS      100
+#define NUM_LEDS      156
 #define LED_TYPE      WS2812
 #define COLOR_ORDER   GRB
 CRGB leds[NUM_LEDS];
 
-int delayval = 20; // Speed of Runner
-int fadeVal = 10; // This should be (brightestValue / numPixelFace) and should be a whole number. 
-int numPixelFade = 20; // The fade on either side of the 'main' pixel
-int pixelHue = 20;
+int delayval = 40; // Speed of Runner
+int fadeVal = 4; // This should be (brightestValue / numPixelFace) and should be a whole number. 
+int numPixelFade = 50; // The fade on either side of the 'main' pixel
+int pixelHue = 120;
 int brightestValue = 200;
 
 void setup() {

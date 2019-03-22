@@ -11,6 +11,19 @@ CRGB leds[NUM_LEDS];
 CRGBPalette16 chosenPalette;
 TBlendType    chosenBlending;
 
+
+// Gradient palette "pulpfiction_gp", originally from
+// http://soliton.vm.bytemark.co.uk/pub/cpt-city/pj/6/tn/pulpfiction.png.index.html
+// converted for FastLED with gammas (2.6, 2.2, 2.5)
+// Size: 8 bytes of program space.
+
+DEFINE_GRADIENT_PALETTE( pulpfiction_gp ) {
+    0,  18,  7,230,
+  255, 224, 10,  9};
+
+
+
+
 void setup() {
   delay(3000); // 3 second delay for recovery
   FastLED.addLeds<LED_TYPE,DATA_PIN,COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
@@ -22,8 +35,8 @@ void setup() {
 //  SetupBlackAndWhiteStripedPalette()
 
     // #1-C
-  SetupBlackBlueGreenAndWhiteStripedPalette();
-
+//  SetupBlackBlueGreenAndWhiteStripedPalette();
+  chosenPalette = pulpfiction_gp;
   chosenBlending = LINEARBLEND;
 }
 
@@ -48,21 +61,21 @@ void loop() {
 
       // #1-A, #1-B, #1-C: Marching fades. Have some control over the number of runners but only from the palette.
       static uint8_t startIndex = 0;
-      startIndex = startIndex + 10; /* motion speed */
+      startIndex = startIndex + 1; /* motion speed */
       FillLEDsFromCustomPalette( startIndex );
         
   FastLED.show();
-  FastLED.delay(10);  
+  FastLED.delay(100);  
 }
 
 
 void FillLEDsFromCustomPalette( uint8_t colorIndex)
 {
-    uint8_t brightness = 255;
+    uint8_t brightness = 240;
     
-    for( int i = 0; i < NUM_LEDS; i++) {      
+    for( int i = 0; i < NUM_LEDS; i++) {  
         leds[i] = ColorFromPalette( chosenPalette, colorIndex, brightness, chosenBlending);
-        colorIndex += 15; //The lower this number, the larger and fewer the runner
+        colorIndex += 4; //The lower this number, the larger and fewer the runner
     }
 }
 
@@ -106,4 +119,7 @@ void SetupBlackBlueGreenAndWhiteStripedPalette()
     chosenPalette[12] = CRGB::Green;
     
 }
+
+
+
 
